@@ -1,0 +1,114 @@
+<link rel="import" href="../tangere/tangere.html">
+<!-- <link rel="import" href="../iron-ajax/iron-ajax.html"> -->
+<link rel="import" href="../at-core-activity/at-core-activity.html">
+
+<dom-module id="at-core-oembed">
+  <template>
+    <style>
+      :host {
+        display: block;
+        box-sizing: border-box;
+      }
+    </style>
+    <content id="response" width="{{width}}" height="{{height}}"></content>
+    <at-core-activity id="coreActivity" on-response="_handleActivityResponse" on-error="_handleActivityError" no-credentials></at-core-activity>
+    <!-- <iron-request id="xhr"></iron-request> -->
+  </template>
+
+  <script>
+    Polymer({
+      is: 'at-core-oembed',
+
+      properties: {
+        
+        width: {
+          type: Number,
+          value: 0
+        },
+
+        height: {
+          type: Number,
+          value: 0
+        },
+
+        endpoint: {
+            type: String,
+            value: ""
+        },
+
+        url: {
+            type: String,
+            value: ""
+        }
+      },
+
+      ready: function() {
+
+        this.url="https://www.adenin.com/blog/3-best-sharepoint-framework-developments-you-should-add-to-your-digital-workplace/";
+
+        this.height = 300;
+        this.width = 300;
+
+        var coreActivity = this.$.coreActivity;
+
+        coreActivity.url = this.endpoint + this.url;
+        coreActivity.method = "GET";
+        coreActivity.generateRequest();
+
+        // var url = this.endpoint + this.url;
+        // var req = this.$.xhr.send({
+        //   url: url,
+        //   handleAs: 'json',
+        // });
+        
+        // req.then(function(res) {
+        //   var data = res.xhr.response;
+        //   switch(data.type) {
+        //     case 'rich':
+        //     var html = data.html.replace(/<script.*><\/script>/g, '');
+        //     var scripts = data.html.match(/<script.*><\/script>/);
+        //     this.innerHTML = html; // Assign HTML content to body of element
+
+        //     scripts.forEach(function(scriptEl, index){ // Enqueue each script on the page.
+        //       var url = new DOMParser().parseFromString(scriptEl, 'text/html').querySelector('script').src;
+        //       var script = document.createElement("script");
+        //       script.src = url;
+        //       script.onload = this._richScriptsLoaded;
+        //       script.id = 'rich-' + index;
+        //       document.head.appendChild(script);
+        //     });
+
+        //     this.width = data.width ? data.width : 'auto';
+        //     this.height = data.height ? data.height : 'auto';
+        //     break;
+
+        //   }
+
+        // }.bind(this),
+        // function(err){
+        //   console.dir(err);
+        // });
+
+      },
+
+      _handleActivityResponse: function(e) {
+        var response = e.detail.response;
+        debugger;
+      },
+
+      _handleActivityError: function(e) {
+        console.log(e.detail.message);
+      },
+
+      attached: function() {
+      },
+
+      detached: function() {
+      },
+
+      _richScriptsLoaded: function(e, detail) {
+        this.fire('oembed-script-loaded', detail);
+      }
+    });
+  </script>
+</dom-module>

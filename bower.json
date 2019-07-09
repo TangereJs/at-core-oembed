@@ -1,0 +1,9 @@
+{
+  "name": "at-core-oembed",
+  "version": "0.0.1.0",
+  "dependencies": {
+    "tangere": "TangereJs/tangere#master",
+    "at-doc-viewer": "TangereJs/at-doc-viewer#master",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.1.1"
+  }
+}
