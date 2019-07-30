@@ -1,6 +1,6 @@
 {
   "name": "at-core-oembed",
-  "version": "0.0.1.0",
+  "version": "0.0.1.351",
   "dependencies": {
     "tangere": "TangereJs/tangere#master",
     "at-doc-viewer": "TangereJs/at-doc-viewer#master",
