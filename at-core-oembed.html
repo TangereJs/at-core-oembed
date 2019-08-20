@@ -10,8 +10,10 @@
         box-sizing: border-box;
       }
     </style>
+
+    <div id="errorContainer"></div>
     <content id="contentContainer" width="{{width}}" height="{{height}}"></content>
-    <at-core-activity id="coreActivity" url="/api/adenin.GateKeeper.OEmbed/" on-response="_handleActivityResponse" on-error="_handleActivityError" ></at-core-activity>
+    <at-core-activity id="coreActivity" url="/api/adenin.GateKeeper.OEmbed/" on-response="_handleActivityResponse" on-error="_handleActivityError" disable-error-code-handler></at-core-activity>
   </template>
 
   <script>
@@ -33,6 +35,11 @@
         url: {
             type: String,
             value: ""
+        },
+
+        showErrors: {
+          type: Boolean,
+          value: false
         }
       },
 
@@ -53,8 +60,15 @@
 
       _handleActivityResponse: function(e) {
         var content = e.detail.Data.content;
-
         var contentContainer = this.$.contentContainer;
+
+        if (e.detail.Data.ErrorCode) {
+          if (this.showErrors == true) {
+            Polymer.dom(this.$.errorContainer).innerHTML = 'Error ' + e.detail.Data.ErrorCode + ' occurred. \n' + e.detail.Data.ErrorText;
+          }
+
+          return;
+        }
 
         var html = content.html.replace(/<script.*><\/script>/g, '');
         var scripts = content.html.match(/<script.*><\/script>/);
@@ -75,8 +89,14 @@
         this.height = content.height ? content.height : 'auto';
       },
 
-      _handleActivityError: function(e) {
-        console.log(e.detail.message);
+      _handleActivityError: function (e) {
+        e.detail.handler.handled = true;
+
+        if (this.showErrors == true) {
+          Polymer.dom(this.$.errorContainer).innerHTML = e.detail.message;
+        }
+
+        return;
       },
 
     });
