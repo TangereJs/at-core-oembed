@@ -4,6 +4,6 @@
   "dependencies": {
     "tangere": "TangereJs/tangere#master",
     "at-doc-viewer": "TangereJs/at-doc-viewer#master",
-    "iron-ajax": "PolymerElements/iron-ajax#~1.1.1"
+    "iron-ajax": "PolymerElements/iron-ajax#1 - 2"
   }
 }
